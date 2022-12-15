@@ -8,14 +8,7 @@ Step 1: npm install
 Step 2: npm start
 
 
-
-
-
-
-Assignment 1:
+Enter
 # url ("http://localhost:3000/")
 
 
-
-Assignment 2:
-# url ("http://localhost:3000/productlist")

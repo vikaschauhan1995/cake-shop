@@ -49,7 +49,7 @@ const ProductItemsList = (props) => {
   const List = () => {
     const items = productList.length > 0 ? productList.map((item) => {
       return (
-        <div key={item.id} className="product-list-card mt-4" onClick={(event) => clickOnItem(event, item.id)}>
+        <div key={item.id} className="product-list-card product-list" onClick={(event) => clickOnItem(event, item.id)}>
           <div style={{ display: "flex" }}>
             <div>
               <DropdownToggle
@@ -63,10 +63,10 @@ const ProductItemsList = (props) => {
               />
             </div>
             <div style={{ width: '100%' }}>
-              <Link 
+              <h5
                 onClick={childClick}
               // onClick={() => clickOnItem(item.id)}
-              >{item.name}</Link><br />
+              >{item.name}</h5>
               {item.description}<br />
               &#8377;{item.price}
             </div>
