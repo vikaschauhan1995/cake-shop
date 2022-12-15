@@ -3,9 +3,24 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { getFolderName } from './ProductItemsList';
 import { isIdAvailable } from '../utils/isIdAvailable';
 import '../style/scss/DropdownToggle.scss';
+import { useDispatch } from 'react-redux';
+import { addToCart, removeFromCart } from '../redux/Product/actions';
+import { addCartListAnimation } from '../methods/addCartListAnimation';
 
 const DropdownToggle = ({ item, cartListItems, wishListItems, removeFromCartList, addToCartHandleClick, removeFromWishList, addToWishList }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const dispatch = useDispatch();
+  const addToCartClick = (item, event) => {
+    dispatch(addToCart(item));
+    event.stopPropagation();
+    addCartListAnimation(event.clientX, event.clientY);
+    addToCartHandleClick(item, event)
+  }
+  const removeFromCartClick = (item, event) => {
+    dispatch(removeFromCart(item));
+    event.stopPropagation();
+    removeFromCartList(item, event);
+  }
   return (
     <Dropdown className="p-0" onMouseLeave={() => setShowDropdown(false)}
       onMouseOver={() => setShowDropdown(true)}>
@@ -22,8 +37,8 @@ const DropdownToggle = ({ item, cartListItems, wishListItems, removeFromCartList
         <ul className="drop-down-list p-0 pt-3">
           {
             isIdAvailable(cartListItems, item.id) === true ?
-              <li onClick={(event) => removeFromCartList(item, event)}>Remove from Cart</li> :
-              <li onClick={(event) => addToCartHandleClick(item, event)}>Add to Cart</li>}
+              <li onClick={(event) => removeFromCartClick(item, event)}>Remove from Cart</li> :
+              <li onClick={(event) => addToCartClick(item, event)}>Add to Cart</li>}
           {
             isIdAvailable(wishListItems, item.id) === true ?
               <li onClick={(event) => removeFromWishList(item, event)}>Remove from Wish List</li>

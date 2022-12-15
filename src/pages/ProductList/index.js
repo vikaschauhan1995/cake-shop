@@ -39,9 +39,10 @@ const ProductList = () => {
   const [productsState, setProductsState] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
 
-
   const productState = useSelector(state => state);
   console.log("productState", productState);
+
+
   // let pageNumber = 1;
 
   // const handleCloseSidebar = () => setShowSidebar(false);
@@ -118,6 +119,7 @@ const ProductList = () => {
     const list = removeItemFromListOfObjects(cartListItems, obj);
     setCartListItems(list);
   }
+  // console.log("cartListItems", cartListItems);
   useEffect(() => {
     const first_page_items = getProductItems(pageNumber, number_of_pages);
     setProductsState(first_page_items);
