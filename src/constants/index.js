@@ -4,11 +4,6 @@ export const PERSONLIST_URL = '/personlist';
 export const PERSON_URL = '/person';
 export const PRODUCTLIST_URL = '/productlist';
 
-const countryList = [
-  { id: 1, name: "India" },
-  { id: 2, name: "Russia" },
-  { id: 3, name: "Spain" }
-];
 
 export const avatarList = [
   { id: 1, name: 'avatar1' },

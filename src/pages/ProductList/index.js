@@ -123,12 +123,6 @@ const ProductList = () => {
     <div>
       <Navbar bg="light" className="navbar-top-main fixed-top" expand="lg">
         <Container>
-          Switch to :
-          <Link to="/" style={{ ...buttonStyle() }}>
-            <button className="btn" style={{ ...backgroundGradiant(), border: '1px solid black', position: 'relative' }}>
-              Assignment 1
-            </button>
-          </Link>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav

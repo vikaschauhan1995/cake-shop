@@ -1,16 +1,3 @@
-export const personList = [
-  { _id: 1, name: "Vikas Chauhan", email: "vikas@gmail.com", dob: "1995-09-12", avatar: 1, country: "ind" },
-  { _id: 2, name: "Mathue", email: "marhue@gmail.com", dob: "1990-09-12", avatar: 2, country: "rus" },
-  { _id: 3, name: "Ryan ", email: "ryan@gmail.com", dob: "1991-09-12", avatar: 5, country: "span" },
-  { _id: 4, name: "Martin Fowler", email: "Martin.fowler@gmail.com", dob: "1992-09-12", avatar: 7, country: "ind" },
-
-  { _id: 5, name: "Mahesh Babu", email: "Mahesh.babu@gmail.com", dob: "1975-08-09", avatar: 2, country: "ind" },
-  { _id: 6, name: "Pawan Kalyan", email: "pawan.kalyan@gmail.com", dob: "1971-05-02", avatar: 3, country: "ind" },
-  { _id: 7, name: "N. T. Rama Rao Jr.", email: "n.t.rama.rao.jr@gmail.com", dob: "1983-05-20", avatar: 1, country: "ind" },
-  { _id: 8, name: "Nagarjuna", email: "nagarjuna@gmail.com", dob: "1959-08-29", avatar: 4, country: "ind" },
-  { _id: 9, name: "Ravi Teja", email: "ravi.teja@gmail.com", dob: "1968-01-26", avatar: 5, country: "ind" }
-];
-
 export const productList = [
   { id: 1, name: "Round Chocolate Truffle Cake", description: "The heavenly taste of this Choco Truffle ll Cake", price: 12, main_image: "1.jpg", all_images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"] },
   { id: 2, name: "Round Shape Butterscotch", description: "The heavenly taste of this Round Shape LL Butterscotch", price: 13, main_image: "1.jpg", all_images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"] },
