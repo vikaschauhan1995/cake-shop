@@ -8,6 +8,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '@material-ui/core';
 import '../../style/scss/Product.scss';
 
+
 const Product = ({ handleProductDetailShow, selectedProductItemId }) => {
   const [product, setProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState("");

@@ -23,6 +23,7 @@ import { buttonStyle } from '../../style/styled_components/buttonStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import Badge from 'react-bootstrap/Badge';
+import { useSelector } from 'react-redux';
 
 
 const ProductList = () => {
@@ -37,6 +38,10 @@ const ProductList = () => {
   const [rowProductState, setRowProductState] = useState([]);
   const [productsState, setProductsState] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
+
+
+  const productState = useSelector(state => state);
+  console.log("productState", productState);
   // let pageNumber = 1;
 
   // const handleCloseSidebar = () => setShowSidebar(false);
