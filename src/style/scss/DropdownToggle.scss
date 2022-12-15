@@ -1,0 +1,73 @@
+@import "../color";
+@import "../dimen";
+
+.dropdown {
+  padding: 0px !important;
+}
+
+.product-list-img {
+  border-radius: 12px;
+}
+
+.drop-down-list {
+  list-style-type: none;
+}
+
+.drop-down-list li {
+  padding-left: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.drop-down-list li:hover {
+  background-color: rgb(230, 230, 230);
+  cursor: pointer;
+}
+
+.dropdown-menu-d {
+  background-color: white;
+  border-color: #c4c4c4;
+  animation: drop 0.2s ease-in-out;
+  -webkit-animation: drop 0.2s ease-in-out;
+  -moz-animation: drop 0.2s ease-in-out;
+  -o-animation: drop 0.2s ease-in-out;
+}
+
+@keyframes drop {
+  0% {
+    margin-top: 10px;
+  }
+
+  50% {
+    margin-top: -10px;
+  }
+
+  100% {
+    margin-top: 0px;
+  }
+}
+
+.dropdown-menu-up-arrow {
+  // height: 20px;
+  padding: 0px !important;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #c4c4c4;
+  margin-top: -14px;
+  margin-left: 10px;
+}
+
+.dropdown-menu-up-arrow-after {
+  padding: 0px !important;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid white;
+  margin-top: -13px;
+  margin-left: 10px;
+}

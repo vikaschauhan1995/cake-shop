@@ -1,0 +1,21 @@
+@import "../color";
+@import "../dimen";
+
+
+.product-list-card {
+  background-color: white;
+  // display: flex;
+  // width: 400px;
+  border-radius: 12px;
+  box-shadow: none;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.product-list-card div {
+  padding: 12px;
+}
+
+.product-list-card:hover {
+  box-shadow: -1px 4px 20px -6px $body-box-shadow;
+  // cursor: pointer;
+}

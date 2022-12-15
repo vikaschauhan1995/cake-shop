@@ -1,0 +1,41 @@
+@import "../color";
+@import "../dimen";
+
+
+.product-list-container {
+  display: grid;
+}
+
+.product-list-container div {
+  // width: 400px;
+  // place-items: center;
+}
+
+#wishSquare {
+  height: 150px;
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  transition: left 0.5s, top 0.5s, height 0.5s, width 0.5s;
+}
+
+.side-panel .nav-item {
+  width: 100%;
+  list-style-type: none;
+  padding: 5px;
+}
+
+.side-panel .nav-item:hover {
+  cursor: pointer;
+  background-color: rgb(233, 233, 233);
+}
+
+#removeBookmarkContainer div {
+  // background-color: red;
+  margin-left: -15px;
+  color: red;
+  font-weight: bold;
+  position: absolute;
+  transition: all 0.5s;
+}
