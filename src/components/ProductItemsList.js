@@ -20,9 +20,7 @@ const ProductItemsList = (props) => {
     addToWishList,
     removeFromWishList,
     wishListItems,
-    cartListItems,
-    addToCartHandleClick,
-    removeFromCartList } = props;
+    } = props;
   const clickOnItem = (event, id) => {
     event.preventDefault();
     handleProductDetailShow();
@@ -54,10 +52,7 @@ const ProductItemsList = (props) => {
             <div>
               <DropdownToggle
                 item={item}
-                cartListItems={cartListItems}
                 wishListItems={wishListItems}
-                removeFromCartList={removeFromCartList}
-                addToCartHandleClick={addToCartHandleClick}
                 removeFromWishList={removeFromWishList}
                 addToWishList={addToWishList}
               />
@@ -65,7 +60,6 @@ const ProductItemsList = (props) => {
             <div style={{ width: '100%' }}>
               <h5
                 onClick={childClick}
-              // onClick={() => clickOnItem(item.id)}
               >{item.name}</h5>
               {item.description}<br />
               &#8377;{item.price}

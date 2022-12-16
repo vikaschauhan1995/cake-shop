@@ -6,20 +6,22 @@ import '../style/scss/DropdownToggle.scss';
 import { useDispatch } from 'react-redux';
 import { addToCart, removeFromCart } from '../redux/Product/actions';
 import { addCartListAnimation } from '../methods/addCartListAnimation';
+import { useSelector } from 'react-redux';
+import { PRODUCT_REDUCER, CART_LIST } from '../redux/Product/const';
 
-const DropdownToggle = ({ item, cartListItems, wishListItems, removeFromCartList, addToCartHandleClick, removeFromWishList, addToWishList }) => {
+const DropdownToggle = ({ item, wishListItems, removeFromWishList, addToWishList }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const productState = useSelector(state => state);
+  const cartList = productState[PRODUCT_REDUCER][CART_LIST];
   const dispatch = useDispatch();
   const addToCartClick = (item, event) => {
     dispatch(addToCart(item));
     event.stopPropagation();
     addCartListAnimation(event.clientX, event.clientY);
-    addToCartHandleClick(item, event)
   }
   const removeFromCartClick = (item, event) => {
     dispatch(removeFromCart(item));
     event.stopPropagation();
-    removeFromCartList(item, event);
   }
   return (
     <Dropdown className="p-0" onMouseLeave={() => setShowDropdown(false)}
@@ -36,7 +38,7 @@ const DropdownToggle = ({ item, cartListItems, wishListItems, removeFromCartList
         <div className="dropdown-menu-up-arrow-after"></div>
         <ul className="drop-down-list p-0 pt-3">
           {
-            isIdAvailable(cartListItems, item.id) === true ?
+            isIdAvailable(cartList, item.id) === true ?
               <li onClick={(event) => removeFromCartClick(item, event)}>Remove from Cart</li> :
               <li onClick={(event) => addToCartClick(item, event)}>Add to Cart</li>}
           {
