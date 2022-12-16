@@ -24,7 +24,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import Badge from 'react-bootstrap/Badge';
 import { useSelector } from 'react-redux';
-import { PRODUCT_REDUCER, CART_LIST } from '../../redux/Product/const';
+import { PRODUCT_REDUCER, CART_LIST, WISH_LIST } from '../../redux/Product/const';
 
 
 const ProductList = () => {
@@ -33,9 +33,9 @@ const ProductList = () => {
 
   const productState = useSelector(state => state);
   const cartList = productState[PRODUCT_REDUCER][CART_LIST];
-  console.log("cartList", cartList);
+  const wishList = productState[PRODUCT_REDUCER][WISH_LIST];
+  console.log("productState", productState);
 
-  const [wishListItems, setWishListItems] = useState([]);
 
   const number_of_pages = 5;
   // const [showSidebar, setShowSidebar] = useState(false);
@@ -97,21 +97,7 @@ const ProductList = () => {
     setProductsState(filtered_date);
     // setShowSidebar(false);
   }
-  const addToWishList = (obj, event) => {
-    event.stopPropagation();
-    addWishListAnimation(event.clientX, event.clientY);
-    const list = [...wishListItems, obj];
-    console.log("x, y: ", event.clientX, event.clientY);
-    setWishListItems(list);
-  }
-  const removeFromWishList = (obj, event) => {
-    event.stopPropagation();
-    removeFromWishlistAnimation();
-    const list = removeItemFromListOfObjects([...wishListItems], obj);
-    setWishListItems(list);
-  }
 
-  // console.log("cartListItems", cartListItems);
   useEffect(() => {
     const first_page_items = getProductItems(pageNumber, number_of_pages);
     setProductsState(first_page_items);
@@ -141,7 +127,7 @@ const ProductList = () => {
             </Nav>
 
             <FontAwesomeIcon className="m-2" id="wishlistBookmarkIcon" icon={faBookmark} />
-            {wishListItems.length > 0 ? <Badge pill bg="danger" style={{ marginLeft: '-15px', marginTop: '-17px' }}>{wishListItems.length}</Badge> : false}<div id="removeBookmarkContainer" />
+            {wishList.length > 0 ? <Badge pill bg="danger" style={{ marginLeft: '-15px', marginTop: '-17px' }}>{wishList.length}</Badge> : false}<div id="removeBookmarkContainer" />
             <FontAwesomeIcon className="m-2" id="cartFortAwesomeIcon" icon={faShoppingCart} />
             {cartList.length > 0 ? <Badge pill bg="danger" style={{ marginLeft: '-15px', marginTop: '-17px' }}>{cartList.length}</Badge> : false}
           </Navbar.Collapse>
@@ -168,9 +154,6 @@ const ProductList = () => {
                     productList={productsState}
                     handleProductDetailShow={handleProductDetailShow}
                     setSelectedProductItemId={setSelectedProductItemId}
-                    addToWishList={addToWishList}
-                    removeFromWishList={removeFromWishList}
-                    wishListItems={wishListItems}
                   />
               }
             </div>

@@ -1,6 +1,6 @@
 
 
 
-export function removeFromCart(previouseStateOfCart, item) {
+export function removeObjectFromListById(previouseStateOfCart, item) {
   return previouseStateOfCart.filter(pItem => pItem.id !== item.id);
 }

@@ -4,15 +4,23 @@ import { getFolderName } from './ProductItemsList';
 import { isIdAvailable } from '../utils/isIdAvailable';
 import '../style/scss/DropdownToggle.scss';
 import { useDispatch } from 'react-redux';
-import { addToCart, removeFromCart } from '../redux/Product/actions';
+import {
+  addToCart,
+  removeFromCart,
+  addToWishList,
+  removeFromWishList
+} from '../redux/Product/actions';
 import { addCartListAnimation } from '../methods/addCartListAnimation';
 import { useSelector } from 'react-redux';
-import { PRODUCT_REDUCER, CART_LIST } from '../redux/Product/const';
+import { PRODUCT_REDUCER, CART_LIST, WISH_LIST } from '../redux/Product/const';
+import { addWishListAnimation } from '../methods/addWishListAnimation';
+import { removeFromWishlistAnimation } from '../methods/removeFromWishlistAnimation';
 
-const DropdownToggle = ({ item, wishListItems, removeFromWishList, addToWishList }) => {
+const DropdownToggle = ({ item }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const productState = useSelector(state => state);
   const cartList = productState[PRODUCT_REDUCER][CART_LIST];
+  const wishList = productState[PRODUCT_REDUCER][WISH_LIST];
   const dispatch = useDispatch();
   const addToCartClick = (item, event) => {
     dispatch(addToCart(item));
@@ -22,6 +30,16 @@ const DropdownToggle = ({ item, wishListItems, removeFromWishList, addToWishList
   const removeFromCartClick = (item, event) => {
     dispatch(removeFromCart(item));
     event.stopPropagation();
+  }
+  const addToWishListClick = (item, event) => {
+    dispatch(addToWishList(item));
+    event.stopPropagation();
+    addWishListAnimation(event.clientX, event.clientY);
+  }
+  const removeFromWishListClick = (item, event) => {
+    dispatch(removeFromWishList(item));
+    event.stopPropagation();
+    removeFromWishlistAnimation();
   }
   return (
     <Dropdown className="p-0" onMouseLeave={() => setShowDropdown(false)}
@@ -42,10 +60,10 @@ const DropdownToggle = ({ item, wishListItems, removeFromWishList, addToWishList
               <li onClick={(event) => removeFromCartClick(item, event)}>Remove from Cart</li> :
               <li onClick={(event) => addToCartClick(item, event)}>Add to Cart</li>}
           {
-            isIdAvailable(wishListItems, item.id) === true ?
-              <li onClick={(event) => removeFromWishList(item, event)}>Remove from Wish List</li>
+            isIdAvailable(wishList, item.id) === true ?
+              <li onClick={(event) => removeFromWishListClick(item, event)}>Remove from Wish List</li>
               : <li
-                onClick={(event) => addToWishList(item, event)}
+                onClick={(event) => addToWishListClick(item, event)}
               >Wish List</li>
           }
         </ul>

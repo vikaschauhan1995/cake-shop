@@ -10,7 +10,7 @@ export function addWishListAnimation(mouseX, mouseY) {
   element.style.left = `${mouseX - 80}px`;
 
   const bookmark = document.querySelector("#wishlistBookmarkIcon");
-  console.log("bookmark", bookmark.getBoundingClientRect().left);
+  // console.log("bookmark", bookmark.getBoundingClientRect().left);
 
 
   document.body.appendChild(element);

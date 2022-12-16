@@ -17,26 +17,13 @@ const ProductItemsList = (props) => {
   const { productList,
     handleProductDetailShow,
     setSelectedProductItemId,
-    addToWishList,
-    removeFromWishList,
-    wishListItems,
-    } = props;
+  } = props;
   const clickOnItem = (event, id) => {
     event.preventDefault();
     handleProductDetailShow();
     setSelectedProductItemId(id);
   }
-  const showAddToCartAndWishList = (id) => {
-    const element = document.querySelector(`.cart-wish-${id}`);
-    element.style.display = 'block';
-  }
-  const hideAddToCartAndWishList = (id) => {
-    const element = document.querySelector(`.cart-wish-${id}`);
-    element.style.display = 'none';
-  }
-  const parentClick = event => {
-    console.log('parent')
-  }
+
   const childClick = (event) => {
     event.stopPropagation();
     console.log('child');
@@ -52,9 +39,6 @@ const ProductItemsList = (props) => {
             <div>
               <DropdownToggle
                 item={item}
-                wishListItems={wishListItems}
-                removeFromWishList={removeFromWishList}
-                addToWishList={addToWishList}
               />
             </div>
             <div style={{ width: '100%' }}>
