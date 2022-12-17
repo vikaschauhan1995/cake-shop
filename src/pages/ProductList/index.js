@@ -24,20 +24,38 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import Badge from 'react-bootstrap/Badge';
 import { useSelector } from 'react-redux';
-import { PRODUCT_REDUCER, CART_LIST, WISH_LIST } from '../../redux/Product/const';
+import {
+  PRODUCT_REDUCER,
+  CART_LIST,
+  WISH_LIST,
+  NUMBER_OF_ITEMS_ON_PAGE,
+  PRODUCT_LIST,
+  IS_PRODUCT_LAZY_DATA_FETCHED,
+  PRUDUCT_LAZY_DATA_LOADING,
+  PRUDUCT_LAZY_DATA_LOADED,
+  IS_PRODUCT_LAZY_DATA_LIST_END
+} from '../../redux/Product/const';
+import { fetchProductList } from '../../utils/fetchProductList';
+import { useDispatch } from 'react-redux';
+import { getProductList } from '../../redux/Product/actions';
+
 
 
 const ProductList = () => {
   const [isProductDetailShow, setIsProductDetailShow] = useState(false);
   const [selectedProductItemId, setSelectedProductItemId] = useState(null);
 
+  const dispatch = useDispatch();
   const productState = useSelector(state => state);
   const cartList = productState[PRODUCT_REDUCER][CART_LIST];
   const wishList = productState[PRODUCT_REDUCER][WISH_LIST];
+  const productList = productState[PRODUCT_REDUCER][PRODUCT_LIST];
+  const isProductLazyDataLoading = productState[PRODUCT_REDUCER][PRUDUCT_LAZY_DATA_LOADING];
+  const isProductLazyDataLoaded = productState[PRODUCT_REDUCER][PRUDUCT_LAZY_DATA_LOADED];
+  const isProductLazyDataListEnd = productState[PRODUCT_REDUCER][IS_PRODUCT_LAZY_DATA_LIST_END];
   console.log("productState", productState);
 
 
-  const number_of_pages = 5;
   // const [showSidebar, setShowSidebar] = useState(false);
   const [rowProductState, setRowProductState] = useState([]);
   const [productsState, setProductsState] = useState([]);
@@ -53,10 +71,16 @@ const ProductList = () => {
   window.onscroll = function (ev) {
     const navbar = document.querySelector('.navbar-top-main');
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      const pageNum = pageNumber + 1;
-      setPageNumber(pageNum);
-      const up_comming_page_items = getProductItems(pageNum, number_of_pages);
-      setProductsState([...productsState, ...up_comming_page_items]);
+      if (!isProductLazyDataLoading && isProductLazyDataLoaded && !isProductLazyDataListEnd) {
+        const pageNum = pageNumber + 1;
+        setPageNumber(pageNum);
+        const up_comming_page_items = getProductItems(pageNum, NUMBER_OF_ITEMS_ON_PAGE);
+        dispatch(getProductList(pageNum, NUMBER_OF_ITEMS_ON_PAGE));
+        // const up_comming_deay_page_items = fetchProductList(pageNum, NUMBER_OF_ITEMS_ON_PAGE);
+        // console.log('up_comming_deay_page_items',up_comming_deay_page_items);
+
+        setProductsState([...productsState, ...up_comming_page_items]);
+      }
     }
     if (window.scrollY > 5) {
       navbar.style.boxShadow = '-1px 4px 20px -6px rgba(0, 0, 0, 0.2)';
@@ -99,9 +123,11 @@ const ProductList = () => {
   }
 
   useEffect(() => {
-    const first_page_items = getProductItems(pageNumber, number_of_pages);
-    setProductsState(first_page_items);
-    setRowProductState(first_page_items);
+    // const firstPageProductItems = fetchProductList(pageNumber, NUMBER_OF_ITEMS_ON_PAGE);
+    dispatch(getProductList(pageNumber, NUMBER_OF_ITEMS_ON_PAGE));
+    // const first_page_items = getProductItems(pageNumber, NUMBER_OF_ITEMS_ON_PAGE);
+    // setProductsState(first_page_items);
+    // setRowProductState(first_page_items);
   }, []);
   // console.log("productsState", productsState)
   return (
@@ -150,11 +176,16 @@ const ProductList = () => {
                   handleProductDetailShow={handleProductDetailShow}
                   selectedProductItemId={selectedProductItemId} />
                   :
-                  <ProductItemsList
-                    productList={productsState}
-                    handleProductDetailShow={handleProductDetailShow}
-                    setSelectedProductItemId={setSelectedProductItemId}
-                  />
+                  <>
+                    <ProductItemsList
+                      productList={productList}
+                      handleProductDetailShow={handleProductDetailShow}
+                      setSelectedProductItemId={setSelectedProductItemId}
+                    />
+                    {isProductLazyDataLoading && !isProductLazyDataListEnd ?
+                      <div style={{ textAlign: 'center' }}><h1>Loading....</h1></div>
+                      : false}
+                  </>
               }
             </div>
           </div>
