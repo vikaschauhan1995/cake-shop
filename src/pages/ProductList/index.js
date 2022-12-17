@@ -7,18 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import ProductItemsList from '../../components/ProductItemsList';
 import { getProductItems } from '../../utils/getProductItems';
 import { getFilteredItems } from '../../utils/getFilteredItems';
-import { ascending } from '../../utils/ascending';
-import { descending } from '../../utils/descending';
-import { priceLowerToMax } from '../../utils/priceLowerToMax';
-import { priceMaxToLower } from '../../utils/priceMaxToLower';
-import { removeItemFromListOfObjects } from '../../utils/removeItemFromListOfObjects';
 import Product from '../Product';
-import { addWishListAnimation } from '../../methods/addWishListAnimation';
-import { addCartListAnimation } from '../../methods/addCartListAnimation';
-import { removeFromWishlistAnimation } from '../../methods/removeFromWishlistAnimation';
-import { Link } from 'react-router-dom';
-import { backgroundGradiant } from '../../style/styled_components/backgroundGradiant';
-import { buttonStyle } from '../../style/styled_components/buttonStyle';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -34,10 +23,11 @@ import {
   PRUDUCT_LAZY_DATA_LOADED,
   IS_PRODUCT_LAZY_DATA_LIST_END,
   PRODUCT_LAZY_DATA_LOAD_FAILURE,
-  PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR
+  PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR,
+  ROW_PRODUCT_LIST
 } from '../../redux/Product/const';
 import { useDispatch } from 'react-redux';
-import { ascendingProductList, descendingProductList, getProductList, priceLowToMax, priceMaxToLow } from '../../redux/Product/actions';
+import { ascendingProductList, descendingProductList, getProductList, priceLowToMax, priceMaxToLow, replaceToProductList } from '../../redux/Product/actions';
 
 
 
@@ -50,17 +40,16 @@ const ProductList = () => {
   const cartList = productState[PRODUCT_REDUCER][CART_LIST];
   const wishList = productState[PRODUCT_REDUCER][WISH_LIST];
   const productList = productState[PRODUCT_REDUCER][PRODUCT_LIST];
+  const rowProductList = productState[PRODUCT_REDUCER][ROW_PRODUCT_LIST];
   const isProductLazyDataLoading = productState[PRODUCT_REDUCER][PRUDUCT_LAZY_DATA_LOADING];
   const isProductLazyDataLoaded = productState[PRODUCT_REDUCER][PRUDUCT_LAZY_DATA_LOADED];
   const isProductLazyDataListEnd = productState[PRODUCT_REDUCER][IS_PRODUCT_LAZY_DATA_LIST_END];
   const isProductLazyDataListFailure = productState[PRODUCT_REDUCER][PRODUCT_LAZY_DATA_LOAD_FAILURE];
   const isProductLazyDataListFailureError = productState[PRODUCT_REDUCER][PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR];
 
+
   console.log("productState", productState);
 
-
-  // const [showSidebar, setShowSidebar] = useState(false);
-  const [rowProductState, setRowProductState] = useState([]);
   const [productsState, setProductsState] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -88,10 +77,10 @@ const ProductList = () => {
     event.stopPropagation();
     event.preventDefault()
     const value = event.target.value;
-    const f = getFilteredItems(rowProductState, value);
-    setProductsState(f);
+    const f = getFilteredItems(rowProductList, value);
+    dispatch(replaceToProductList(f));
     if (value === undefined || value === "") {
-      setProductsState(rowProductState);
+      dispatch(replaceToProductList(rowProductList));
     }
   }
 

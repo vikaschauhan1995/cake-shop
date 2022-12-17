@@ -15,7 +15,8 @@ import {
   PRODUCT_LAZY_DATA_LOAD_ERROR,
   PRODUCT_LAZY_DATA_LOAD_FAILURE,
   PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR,
-  REPLACE_PRODUCT_LIST
+  REPLACE_PRODUCT_LIST,
+  ROW_PRODUCT_LIST
 } from './const';
 import { removeObjectFromListById } from './methods/removeObjectFromListById';
 
@@ -44,7 +45,12 @@ export const reducer = (state = initialState, action) => {
       return { ...state, [WISH_LIST]: updatedWishList };
     case ADD_TO_PRODUCT_LIST:
       if (action.payload?.length > 0) {
-        return { ...state, [PRODUCT_LIST]: [...state[PRODUCT_LIST], ...action.payload] };
+        let list = [...state[PRODUCT_LIST], ...action.payload];
+        return {
+          ...state,
+          [PRODUCT_LIST]: list,
+          [ROW_PRODUCT_LIST]: list
+        };
       } else {
         return { ...state, [IS_PRODUCT_LAZY_DATA_LIST_END]: true };
       }

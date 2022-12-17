@@ -8,7 +8,6 @@ import {
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
   GET_PRODUCT_LIST,
-  ADD_TO_PRODUCT_LIST,
   REPLACE_PRODUCT_LIST
 } from './const';
 
@@ -47,9 +46,9 @@ export function getProductList(pageNum, number_of_items_on_pages) {
   };
 }
 
-export function addToProductList(items) {
+export function replaceToProductList(items) {
   return {
-    type: ADD_TO_PRODUCT_LIST,
+    type: REPLACE_PRODUCT_LIST,
     payload: items
   }
 }
