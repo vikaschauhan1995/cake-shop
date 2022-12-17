@@ -2,6 +2,9 @@
 
 
 export function getFilteredItems(arr, input) {
+  if (input === undefined || input === "") {
+    return arr;
+  }
   const lowerInput = input.toLowerCase();
   const numToStirng = "" + input;
   let x = arr?.filter((a) => {

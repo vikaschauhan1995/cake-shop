@@ -1,22 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import '../../style/scss/ProductList.scss';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import ProductItemsList from '../../components/ProductItemsList';
 import { getProductItems } from '../../utils/getProductItems';
-import { getFilteredItems } from '../../utils/getFilteredItems';
 import Product from '../Product';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import Badge from 'react-bootstrap/Badge';
 import { useSelector } from 'react-redux';
 import {
   PRODUCT_REDUCER,
-  CART_LIST,
-  WISH_LIST,
   NUMBER_OF_ITEMS_ON_PAGE,
   PRODUCT_LIST,
   PRUDUCT_LAZY_DATA_LOADING,
@@ -24,12 +13,10 @@ import {
   IS_PRODUCT_LAZY_DATA_LIST_END,
   PRODUCT_LAZY_DATA_LOAD_FAILURE,
   PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR,
-  ROW_PRODUCT_LIST
 } from '../../redux/Product/const';
 import { useDispatch } from 'react-redux';
-import { ascendingProductList, descendingProductList, getProductList, priceLowToMax, priceMaxToLow, replaceToProductList } from '../../redux/Product/actions';
-
-
+import { ascendingProductList, descendingProductList, getProductList, priceLowToMax, priceMaxToLow } from '../../redux/Product/actions';
+import NavBar from '../../components/NavBar';
 
 const ProductList = () => {
   const [isProductDetailShow, setIsProductDetailShow] = useState(false);
@@ -37,16 +24,12 @@ const ProductList = () => {
 
   const dispatch = useDispatch();
   const productState = useSelector(state => state);
-  const cartList = productState[PRODUCT_REDUCER][CART_LIST];
-  const wishList = productState[PRODUCT_REDUCER][WISH_LIST];
   const productList = productState[PRODUCT_REDUCER][PRODUCT_LIST];
-  const rowProductList = productState[PRODUCT_REDUCER][ROW_PRODUCT_LIST];
   const isProductLazyDataLoading = productState[PRODUCT_REDUCER][PRUDUCT_LAZY_DATA_LOADING];
   const isProductLazyDataLoaded = productState[PRODUCT_REDUCER][PRUDUCT_LAZY_DATA_LOADED];
   const isProductLazyDataListEnd = productState[PRODUCT_REDUCER][IS_PRODUCT_LAZY_DATA_LIST_END];
   const isProductLazyDataListFailure = productState[PRODUCT_REDUCER][PRODUCT_LAZY_DATA_LOAD_FAILURE];
   const isProductLazyDataListFailureError = productState[PRODUCT_REDUCER][PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR];
-
 
   console.log("productState", productState);
 
@@ -73,16 +56,7 @@ const ProductList = () => {
   const handleProductDetailShow = () => {
     setIsProductDetailShow(!isProductDetailShow);
   }
-  const handleSearch = (event) => {
-    event.stopPropagation();
-    event.preventDefault()
-    const value = event.target.value;
-    const f = getFilteredItems(rowProductList, value);
-    dispatch(replaceToProductList(f));
-    if (value === undefined || value === "") {
-      dispatch(replaceToProductList(rowProductList));
-    }
-  }
+
 
   useEffect(() => {
     dispatch(getProductList(pageNumber, NUMBER_OF_ITEMS_ON_PAGE));
@@ -90,33 +64,7 @@ const ProductList = () => {
   // console.log("productsState", productsState)
   return (
     <div>
-      <Navbar bg="light" className="navbar-top-main fixed-top" expand="lg">
-        <Container>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
-            <Nav
-              className="me-auto my-2"
-              style={{ maxHeight: '100px', width: '100%', justifyContent: 'center' }}
-              navbarScroll
-            >
-              <div>
-                <Form.Control
-                  type="text"
-                  placeholder="find name, price, desc."
-                  onChange={handleSearch}
-                  className="me-2"
-                  aria-label="Search"
-                />
-              </div>
-            </Nav>
-
-            <FontAwesomeIcon className="m-2" id="wishlistBookmarkIcon" icon={faBookmark} />
-            {wishList.length > 0 ? <Badge pill bg="danger" style={{ marginLeft: '-15px', marginTop: '-17px' }}>{wishList.length}</Badge> : false}<div id="removeBookmarkContainer" />
-            <FontAwesomeIcon className="m-2" id="cartFortAwesomeIcon" icon={faShoppingCart} />
-            {cartList.length > 0 ? <Badge pill bg="danger" style={{ marginLeft: '-15px', marginTop: '-17px' }}>{cartList.length}</Badge> : false}
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <NavBar />
       <div className="mt-5 w-100 product-list-container">
         <div className="container-fluid mt-3">
           <div className="row" style={{ display: 'flex', justifyContent: 'center' }}>
