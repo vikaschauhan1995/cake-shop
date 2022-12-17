@@ -7,12 +7,15 @@ import {
   WISH_LIST,
   ADD_TO_PRODUCT_LIST,
   PRODUCT_LIST,
-  IS_PRODUCT_LAZY_DATA_FETCHED,
   PRUDUCT_LAZY_DATA_LOAD,
   PRUDUCT_LAZY_DATA_LOADED,
   PRUDUCT_LAZY_DATA_LOADING,
   PRODUCT_LAZY_DATA_LOAD_SUCCESS,
-  IS_PRODUCT_LAZY_DATA_LIST_END
+  IS_PRODUCT_LAZY_DATA_LIST_END,
+  PRODUCT_LAZY_DATA_LOAD_ERROR,
+  PRODUCT_LAZY_DATA_LOAD_FAILURE,
+  PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR,
+  REPLACE_PRODUCT_LIST
 } from './const';
 import { removeObjectFromListById } from './methods/removeObjectFromListById';
 
@@ -23,6 +26,8 @@ const initialState = {
   [PRUDUCT_LAZY_DATA_LOADED]: true,
   [PRUDUCT_LAZY_DATA_LOADING]: false,
   [IS_PRODUCT_LAZY_DATA_LIST_END]: false,
+  [PRODUCT_LAZY_DATA_LOAD_FAILURE]: false,
+  [PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR]: ''
 };
 
 export const reducer = (state = initialState, action) => {
@@ -47,6 +52,16 @@ export const reducer = (state = initialState, action) => {
       return { ...state, [PRUDUCT_LAZY_DATA_LOADED]: false, [PRUDUCT_LAZY_DATA_LOADING]: true };
     case PRODUCT_LAZY_DATA_LOAD_SUCCESS:
       return { ...state, [PRUDUCT_LAZY_DATA_LOADED]: true, [PRUDUCT_LAZY_DATA_LOADING]: false };
+    case PRODUCT_LAZY_DATA_LOAD_ERROR:
+      return {
+        ...state,
+        [PRUDUCT_LAZY_DATA_LOADED]: true,
+        [PRUDUCT_LAZY_DATA_LOADING]: false,
+        [PRODUCT_LAZY_DATA_LOAD_FAILURE]: true,
+        [PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR]: action.payload
+      }
+    case REPLACE_PRODUCT_LIST:
+      return { ...state, [PRODUCT_LIST]: action.payload };
     default:
       return state;
   }

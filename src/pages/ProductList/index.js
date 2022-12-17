@@ -30,14 +30,14 @@ import {
   WISH_LIST,
   NUMBER_OF_ITEMS_ON_PAGE,
   PRODUCT_LIST,
-  IS_PRODUCT_LAZY_DATA_FETCHED,
   PRUDUCT_LAZY_DATA_LOADING,
   PRUDUCT_LAZY_DATA_LOADED,
-  IS_PRODUCT_LAZY_DATA_LIST_END
+  IS_PRODUCT_LAZY_DATA_LIST_END,
+  PRODUCT_LAZY_DATA_LOAD_FAILURE,
+  PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR
 } from '../../redux/Product/const';
-import { fetchProductList } from '../../utils/fetchProductList';
 import { useDispatch } from 'react-redux';
-import { getProductList } from '../../redux/Product/actions';
+import { ascendingProductList, descendingProductList, getProductList, priceLowToMax, priceMaxToLow } from '../../redux/Product/actions';
 
 
 
@@ -53,6 +53,9 @@ const ProductList = () => {
   const isProductLazyDataLoading = productState[PRODUCT_REDUCER][PRUDUCT_LAZY_DATA_LOADING];
   const isProductLazyDataLoaded = productState[PRODUCT_REDUCER][PRUDUCT_LAZY_DATA_LOADED];
   const isProductLazyDataListEnd = productState[PRODUCT_REDUCER][IS_PRODUCT_LAZY_DATA_LIST_END];
+  const isProductLazyDataListFailure = productState[PRODUCT_REDUCER][PRODUCT_LAZY_DATA_LOAD_FAILURE];
+  const isProductLazyDataListFailureError = productState[PRODUCT_REDUCER][PRUDCT_LAZY_DATA_LOAD_FAILURE_ERROR];
+
   console.log("productState", productState);
 
 
@@ -60,13 +63,6 @@ const ProductList = () => {
   const [rowProductState, setRowProductState] = useState([]);
   const [productsState, setProductsState] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-
-
-
-  // let pageNumber = 1;
-
-  // const handleCloseSidebar = () => setShowSidebar(false);
-  // const handleShowSidebar = () => setShowSidebar(true);
 
   window.onscroll = function (ev) {
     const navbar = document.querySelector('.navbar-top-main');
@@ -76,9 +72,6 @@ const ProductList = () => {
         setPageNumber(pageNum);
         const up_comming_page_items = getProductItems(pageNum, NUMBER_OF_ITEMS_ON_PAGE);
         dispatch(getProductList(pageNum, NUMBER_OF_ITEMS_ON_PAGE));
-        // const up_comming_deay_page_items = fetchProductList(pageNum, NUMBER_OF_ITEMS_ON_PAGE);
-        // console.log('up_comming_deay_page_items',up_comming_deay_page_items);
-
         setProductsState([...productsState, ...up_comming_page_items]);
       }
     }
@@ -101,33 +94,9 @@ const ProductList = () => {
       setProductsState(rowProductState);
     }
   }
-  const clickAscendingOrder = () => {
-    const asc_data = ascending([...productsState]);
-    setProductsState(asc_data);
-    // setShowSidebar(false);
-  }
-  const clickDescendingOrder = () => {
-    const desc_data = descending([...productsState]);
-    setProductsState(desc_data);
-    // setShowSidebar(false);
-  }
-  const clickPriceLowToMax = () => {
-    const filtered_date = priceLowerToMax([...productsState]);
-    setProductsState(filtered_date);
-    // setShowSidebar(false);
-  }
-  const clickPriceMaxToLower = () => {
-    const filtered_date = priceMaxToLower([...productsState]);
-    setProductsState(filtered_date);
-    // setShowSidebar(false);
-  }
 
   useEffect(() => {
-    // const firstPageProductItems = fetchProductList(pageNumber, NUMBER_OF_ITEMS_ON_PAGE);
     dispatch(getProductList(pageNumber, NUMBER_OF_ITEMS_ON_PAGE));
-    // const first_page_items = getProductItems(pageNumber, NUMBER_OF_ITEMS_ON_PAGE);
-    // setProductsState(first_page_items);
-    // setRowProductState(first_page_items);
   }, []);
   // console.log("productsState", productsState)
   return (
@@ -164,10 +133,10 @@ const ProductList = () => {
           <div className="row" style={{ display: 'flex', justifyContent: 'center' }}>
             <div className="col-lg-3 col-md-3 col-sm-4">
               <ul className="side-panel mt-4 ps-0 float-right" style={{ textAlign: 'right', backgroundColor: 'white' }}>
-                <li onClick={() => clickAscendingOrder()} className="nav-item pe-5 pt-2 pb-2">Ascending</li>
-                <li onClick={() => clickDescendingOrder()} className="nav-item pe-5 pt-2 pb-2">Descending</li>
-                <li onClick={() => clickPriceLowToMax()} className="nav-item pe-5 pt-2 pb-2">Price min-max</li>
-                <li onClick={() => clickPriceMaxToLower()} className="nav-item pe-5 pt-2 pb-2">Price max-min</li>
+                <li onClick={() => dispatch(ascendingProductList(productList))} className="nav-item pe-5 pt-2 pb-2">Ascending</li>
+                <li onClick={() => dispatch(descendingProductList(productList))} className="nav-item pe-5 pt-2 pb-2">Descending</li>
+                <li onClick={() => dispatch(priceLowToMax(productList))} className="nav-item pe-5 pt-2 pb-2">Price min-max</li>
+                <li onClick={() => dispatch(priceMaxToLow(productList))} className="nav-item pe-5 pt-2 pb-2">Price max-min</li>
               </ul>
             </div>
             <div className="col-lg-7 col-md-6 col-sm-8">
@@ -185,6 +154,7 @@ const ProductList = () => {
                     {isProductLazyDataLoading && !isProductLazyDataListEnd ?
                       <div style={{ textAlign: 'center' }}><h1>Loading....</h1></div>
                       : false}
+                    {isProductLazyDataListFailure ? <div style={{ textAlign: 'center' }}><h1>{isProductLazyDataListFailureError}</h1></div> : false}
                   </>
               }
             </div>
